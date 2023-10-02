@@ -10,6 +10,16 @@ public class KafkaConsumerApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(KafkaConsumerApplication.class, args);
-	}	
+	}
+	
+	
+	@KafkaListener(topics = "quickstart-events-new", groupId = "console-consumer-22234")
+	public void listner(@Payload String message) {
+		
+		
+		System.out.println(message);
+		
+		
+	}
 
 }
