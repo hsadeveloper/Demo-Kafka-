@@ -1,4 +1,4 @@
-package kafkaConsumer.configuration;
+package com.sabonchi.example.kfc.config;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,28 +10,28 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+import org.springframework.kafka.support.serializer.JsonDeserializer;
+
+import com.sabonchi.example.kfc.data.Credentail;
 
 
 @Configuration
 public class KafkaConsumer {
-
-	
 	@Bean
-	public ConsumerFactory<String, String> consumerFactory(){
+	public ConsumerFactory<String, Credentail> consumerFactory(){
 		
 		Map<String,Object> map = new HashMap<>();
 		map.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:90992");
 		map.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-		map.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-		
-		
+		map.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
 		return  new DefaultKafkaConsumerFactory<>(map);
 	}
 	
 	
-	   public ConcurrentKafkaListenerContainerFactory<String, String> concurrentKafkaListenerContainerFactory()
+	  @Bean
+	   public ConcurrentKafkaListenerContainerFactory<String, Credentail> concurrentKafkaListenerContainerFactory()
 	    {
-	        ConcurrentKafkaListenerContainerFactory<  String, String> factory= new ConcurrentKafkaListenerContainerFactory<>();
+	        ConcurrentKafkaListenerContainerFactory<  String, Credentail> factory= new ConcurrentKafkaListenerContainerFactory<>();
 	        factory.setConsumerFactory(consumerFactory());
 	        return factory;
 	    }
